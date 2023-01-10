@@ -58,6 +58,19 @@ class PersonController {
         return persons.map{ PersonHelper.personDomainToDTOPersist(it) }
     }
 
+    @Operation(summary = "Get all people by last name")
+    @ApiResponses(
+        value = [
+            ApiResponse(responseCode = "200", description = "Successful Operation"),
+            ApiResponse(responseCode = "500", description = "Unable to fetch records")
+        ]
+    )
+    @GetMapping("/persons/{lastname}")
+    fun getPersonById(@PathVariable("lastnam e") name: String) : List<PersonDTOPersist> {
+        val persons = personService.findPersonByLastName(name) ?: throw PersonNotFoundException("${name} Not Found")
+        return persons.map{PersonHelper.personDomainToDTOPersist(it)}
+    }
+
     @Operation(summary = "Create a new person object")
     @ApiResponses(
         value = [
