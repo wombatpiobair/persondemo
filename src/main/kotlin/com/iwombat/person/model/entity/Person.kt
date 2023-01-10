@@ -14,7 +14,6 @@ class Person {
 
     @Column(nullable = true)
     var email: String? = null
-
     @Id
     @Column(name = "id", length = 16, unique = true, nullable = false)
     var id: UUID =  UUID.randomUUID()

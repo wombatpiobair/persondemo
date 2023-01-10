@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.web.bind.annotation.*
 import java.util.*
 import javax.persistence.NoResultException
-import javax.security.auth.message.AuthException
+
 
 @RestController
 @RequestMapping("/v1")
