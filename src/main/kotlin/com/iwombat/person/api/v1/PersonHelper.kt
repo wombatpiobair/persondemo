@@ -1,17 +1,16 @@
 package com.iwombat.person.api.v1
 
 import com.iwombat.person.api.v1.dto.PersonDTO
-import com.iwombat.person.api.v1.dto.PersonDTOPersist
 import com.iwombat.person.model.entity.Person
 
 class PersonHelper {
     companion object {
-        fun personDomainToDTOPersist(person : Person) : PersonDTOPersist {
+        fun personDomainToDTOPersist(person : Person) : PersonDTO {
             val email : String = person.email ?: ""
-            return PersonDTOPersist(person.id, person.firstName, person.lastName, person.email.orEmpty(), person.version )
+            return PersonDTO(person.id, person.firstName, person.lastName, person.email.orEmpty(), person.version )
         }
 
-        fun personDTOPersistToDomain(personDto : PersonDTOPersist) : Person {
+        fun personDTOPersistToDomain(personDto : PersonDTO) : Person {
             val person = Person()
 
             // if it's null let the entity set the default

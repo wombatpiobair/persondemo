@@ -1,7 +1,6 @@
 package com.iwombat.person.api.v1
 
 import com.iwombat.person.api.v1.dto.PersonDTO
-import com.iwombat.person.api.v1.dto.PersonDTOPersist
 import com.iwombat.person.model.PersonService
 import com.iwombat.person.model.entity.Person
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
@@ -71,20 +70,14 @@ class PersonControllerTest {
 
     @Test
     fun savePersonWhenRequested() {
-        val person = PersonDTO("Ted","Boop","booopmail")
 
 
-        val personEntity = PersonHelper.personDTOToDomain(person)
-        val id = personEntity.id
+        val id = UUID.randomUUID()
         whenever(personService.createPerson(any())).thenReturn(id)
 
-        val mapper = jacksonObjectMapper()
-        val personJson = mapper.writeValueAsString(person)
-
-        mockMvc.post("/v1/person") {
+        mockMvc.post("/v1/person?firstName=ted&lastName=bop&email=ted@foo") {
             contentType = MediaType.APPLICATION_JSON
             accept = MediaType.APPLICATION_JSON
-            content = personJson
         }.andExpect {
             status { isOk() }
             content { string(containsString(id.toString())) }
@@ -94,8 +87,8 @@ class PersonControllerTest {
     }
     @Test
     fun updatePersonWhenRequested() {
-        val person = PersonDTOPersist(UUID.randomUUID(), "Ted","Boop","booopmail", 2)
-        val personUpdate = PersonDTOPersist(UUID.randomUUID(), "Ted","Boop","booopmail", 3)
+        val person = PersonDTO(UUID.randomUUID(), "Ted","Boop","booopmail", 2)
+        val personUpdate = PersonDTO(UUID.randomUUID(), "Ted","Boop","booopmail", 3)
 
         // service will return the entity object
         val personEntity = PersonHelper.personDTOPersistToDomain(person)

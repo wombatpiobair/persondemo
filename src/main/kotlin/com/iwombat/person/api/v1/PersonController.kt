@@ -3,7 +3,6 @@ package com.iwombat.person.api.v1
 import com.iwombat.person.api.PersonErrorResponse
 import com.iwombat.person.api.PersonNotFoundException
 import com.iwombat.person.api.v1.dto.PersonDTO
-import com.iwombat.person.api.v1.dto.PersonDTOPersist
 import com.iwombat.person.model.entity.Person
 import com.iwombat.person.model.PersonService
 import io.swagger.v3.oas.annotations.Operation
@@ -40,7 +39,7 @@ class PersonController {
         ]
     )
     @GetMapping("/person/{id}")
-    fun getPersonById(@PathVariable("id") id: UUID) : PersonDTOPersist {
+    fun getPersonById(@PathVariable("id") id: UUID) : PersonDTO {
         val person = personService.getPersonById(id) ?: throw PersonNotFoundException("Person: ${id} Not Found")
         return PersonHelper.personDomainToDTOPersist(person)
     }
@@ -53,7 +52,7 @@ class PersonController {
         ]
     )
     @GetMapping("/person")
-    fun getProjects() : List<PersonDTOPersist> {
+    fun getProjects() : List<PersonDTO> {
         val persons = personService.getAllPerson()
         return persons.map{ PersonHelper.personDomainToDTOPersist(it) }
     }
@@ -66,7 +65,7 @@ class PersonController {
         ]
     )
     @GetMapping("/persons/{lastname}")
-    fun getPersonById(@PathVariable("lastnam e") name: String) : List<PersonDTOPersist> {
+    fun getPersonById(@PathVariable("lastnam e") name: String) : List<PersonDTO> {
         val persons = personService.findPersonByLastName(name) ?: throw PersonNotFoundException("${name} Not Found")
         return persons.map{PersonHelper.personDomainToDTOPersist(it)}
     }
@@ -79,9 +78,9 @@ class PersonController {
         ]
     )
     @PostMapping("/person")
-    fun createPerson(@RequestBody personDTO : PersonDTO) : UUID {
-        val person : Person = PersonHelper.personDTOToDomain(personDTO)
-        var id = personService.createPerson(person)
+    fun createPerson(@RequestParam firstName: String, @RequestParam lastName:String, @RequestParam email:String) : UUID {
+        val person : PersonDTO = PersonDTO(UUID.randomUUID(), firstName, lastName, email, 0)
+        var id = personService.createPerson(PersonHelper.personDTOToDomain(person))
 
         return id;
     }
@@ -103,7 +102,7 @@ class PersonController {
         ]
     )
     @PutMapping("/person/{id}")
-    fun updatePerson(@PathVariable("id") id:UUID, @RequestBody personDTO : PersonDTOPersist) : PersonDTOPersist {
+    fun updatePerson(@PathVariable("id") id:UUID, @RequestBody personDTO : PersonDTO) : PersonDTO {
         val person : Person = PersonHelper.personDTOPersistToDomain(personDTO)
 
         if (person.id != id) throw IllegalArgumentException("Id does not match body")
