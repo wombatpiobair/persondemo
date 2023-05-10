@@ -8,6 +8,7 @@ Repository containing a starter spring boot project using the following:
 * Gradle build script
 * Swagger documentation
 * github action - test on main branch checkin
+* github action - publish to Azure Spring Apps (disabled)
 
 Build/Run steps
 * clean - ./gradlew clean
