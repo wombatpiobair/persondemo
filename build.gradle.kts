@@ -25,13 +25,13 @@ dependencies {
 	implementation("com.azure.spring:spring-cloud-azure-starter")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+	implementation("io.github.microutils:kotlin-logging:1.4.3")
 
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.cloud:spring-cloud-config-server")
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.2.10.RELEASE")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-	implementation("org.slf4j:slf4j-api:1.7.36")
 
 	implementation("org.springdoc:springdoc-openapi-data-rest:1.6.0")
 	implementation("org.springdoc:springdoc-openapi-ui:1.6.0")
